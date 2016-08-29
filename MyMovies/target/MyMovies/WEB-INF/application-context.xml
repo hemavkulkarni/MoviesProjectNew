@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/tx 
+	http://www.springframework.org/schema/tx/spring-tx.xsd">
+	<context:annotation-config />
+	
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="org.h2.Driver" />
+		<property name="url" value="jdbc:h2:tcp://localhost/~/collobarative" />
+		<property name="username" value="sa" />
+		<property name="password" value="" />
+	</bean>
+	
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+	
+		<property name="dataSource" ref="dataSource" />
+		
+		
+		
+
+		<property name="hibernateProperties">
+
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>
+				<prop key="hibernate.current_session_context_class">thread</prop>
+				<!-- <prop key="hibernate.hbm2ddl.auto">create</prop> only for first 
+					time, otherwise table created again and again -->
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.show_sql">true</prop>
+			</props>
+		</property>
+
+<!-- <property name="annotatedClasses">
+<list>
+<value>com.niit.model.Blog</value>
+<value>com.niit.model.Forum</value>
+<value>com.niit.model.User</value>
+</list>
+</property>
+ -->		
+		<property name="packagesToScan">
+			<list>
+			
+				<value>com.niit.model</value>
+				
+			</list>
+		</property>
+
+	</bean>
+	<context:component-scan base-package="com.niit.*"/>
+	
+	<!-- 
+	<bean id="blogservice" class="com.niit.service.BlogServiceImpl"/>
+	<bean id="blogdao" class="com.niit.dao.BlogDaoImpl"/>
+	 -->
+	<!-- 	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+<tx:annotation-driven transaction-manager="transactionManager"/>-->
+
+
+</beans>
